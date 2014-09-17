@@ -16,3 +16,13 @@ git pull origin master
 
 # create a new branch 
 git checkout -b [name-of-branch]
+
+# find which files are under version control
+git ls-files
+
+# who to blame for every line in a program
+git blame [filename]
+
+# adjust attribution
+git config user.name [name]
+git config user.email [email]
