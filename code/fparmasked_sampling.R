@@ -1,7 +1,7 @@
 library(rgdal)
 library(downloader)
 
-download("https://www.dropbox.com/s/6wk1dmz8xxo6vdw/fAPAR.zip?dl=0", fAPAR.zip", mode="wb")
+download("https://www.dropbox.com/s/6wk1dmz8xxo6vdw/fAPAR.zip?dl=0", "fAPAR.zip", mode="wb")
 unzip("fAPAR.zip", overwrite=T)
 
 fpar_ave <- readGDAL("fPAR_ave.tif", silent=TRUE)
