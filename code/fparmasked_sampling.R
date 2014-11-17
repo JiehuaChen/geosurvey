@@ -24,16 +24,16 @@ coord_mask_v <- coord_mask_n[coord_mask_v, ]
 k <- 4
 nk <- n/k
 for(i in 1:k){
-	write.csv(data.frame(Lon=coord_mask_n[(((i-1)*nk+1):(i*nk)),1], Lat=coord_mask_n[(((i-1)*nk+1):(i*nk)),2]), paste("AF_GS_sample_4p_", i, ".csv", sep=""), row.names=FALSE, quote=FALSE)
+	write.csv(data.frame(Latitude=coord_mask_n[(((i-1)*nk+1):(i*nk)),2], Longitude=coord_mask_n[(((i-1)*nk+1):(i*nk)),1]), paste("AF_GS_sample_4p_", i, ".csv", sep=""), row.names=FALSE, quote=FALSE)
 }
 
 k <- 2
 nk <- n/k
 for(i in 1:k){
-	write.csv(data.frame(Lon=coord_mask_n[(((i-1)*nk+1):(i*nk)),1], Lat=coord_mask_n[(((i-1)*nk+1):(i*nk)),2]), paste("AF_GS_sample_2p_", i,".csv", sep=""), row.names=FALSE, quote=FALSE)
+	write.csv(data.frame(Latitude=coord_mask_n[(((i-1)*nk+1):(i*nk)),2], Longitude=coord_mask_n[(((i-1)*nk+1):(i*nk)),1]), paste("AF_GS_sample_2p_", i,".csv", sep=""), row.names=FALSE, quote=FALSE)
 }
 
-write.csv(data.frame(Lon=coord_mask_v[,1], Lat=coord_mask_v[,2]), "AF_GS_valpts.csv", row.names=FALSE, quote=FALSE)
+write.csv(data.frame(Latitude=coord_mask_v[,2], Longitude=coord_mask_v[,1]), "AF_GS_valpts.csv", row.names=FALSE, quote=FALSE)
 
 
 
