@@ -6,6 +6,7 @@ unzip("fAPAR.zip", overwrite=T)
 
 fpar_ave <- readGDAL("fPAR_ave.tif", silent=TRUE)
 coordinates_fpar <- coordinates(fpar_ave)[!is.na(fpar_ave@data$band1), ]
+coordinates_fpar  <- coordinates_fpar[fpar_ave@data$band1[!is.na(fpar_ave@data$band1)]>0.5, ]
 coordinates_fpar_selected <- sample(1:dim(coordinates_fpar)[1], 1000000)
 coordinates_fpar_selected <- coordinates_fpar[coordinates_fpar_selected, ]
 coordinates_fpar_selected <- project(coordinates_fpar_selected, "+proj=laea +ellps=WGS84 +lon_0=20 +lat_0=5 +units=m +no_defs", inv = TRUE)
