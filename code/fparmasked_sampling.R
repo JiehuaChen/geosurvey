@@ -21,6 +21,10 @@ coord_mask_v <- sample(1:n, v)
 coord_mask_v <- coord_mask_n[coord_mask_v, ]
 
 # Write csv's -------------------------------------------------------------
+
+write.csv(data.frame(Latitude=coord_mask_n[,2], Longitude=coord_mask_n[,1]),"AF_GS_sample.csv", row.names=FALSE, quote=FALSE)
+
+
 k <- 4
 nk <- n/k
 for(i in 1:k){
