@@ -28,19 +28,19 @@ if(length(args) < 2){
 cvpar = readLines(args[[2]])
 
 library(raster)
-glist <- list.files(path="../../../remotesensing_data/Af_Gtif_std_1k", pattern="tif", full.names=T)
+glist <- list.files(path="../../../remotesensing_data/Af_grids_std", pattern="tif", full.names=T)
 grid <- stack(glist)
 
 #Initialize Spark context 
-sc <- sparkR.init(args[[1]], "geosurvey_predict")
+sc <- sparkR.init(args[[1]], "geosurvey_predict", sparkEnvir=list(spark.executor.memory="1g"))
 
 cv_bart <- function(indata) {
-    library(raster)
+   library(raster)
    print("In cv_bart")
    print(indata)
    params <- strsplit(indata, split=",")[[1]]
    extract_data <- extract(grid, cbind(as.numeric(params[1]), as.numeric(params[2])))
-   myres = paste(params[1],params[2], extract_data, collapse=",")
+   myres = paste(paste(params[1],params[2], sep=","), paste(extract_data, collapse=","), sep=",")
 }
 
 nslices = 1
@@ -49,7 +49,7 @@ if(length(args)==3) {nslices = as.numeric(args[[3]])}
 rdd <- parallelize(sc, coll=cvpar, numSlices = nslices)
 myerr <- flatMap(rdd,cv_bart)
 output <- collect(myerr)
-results <- do.call("rbind", strsplit(do.call("rbind", output), split=" "))
-
-write.csv(results, "results.csv", row.names=FALSE)
+results <- t(mapply("as.numeric",  strsplit(do.call("rbind", output), split=",")))
+colnames(results) <- c("Longitude", "Latitude",  names(grid))
+# write.csv(results, "results.csv", row.names=FALSE)
 
