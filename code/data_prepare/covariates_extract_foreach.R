@@ -1,30 +1,20 @@
 #!/usr/bin/Rscript
 
-### CV
+### extracting covariates in parallel
 # stop when there is an warning
 ptm <- proc.time()
 
 options(warn=2)
 
 # load library
-## install SparkR
-#library(devtools)
-#install_github("amplab-extras/SparkR-pkg", subdir="pkg")
-
-library(SparkR)
-
+library(rgdal)
 # read in command arguments
 args <- commandArgs(trailingOnly=TRUE)
-if(length(args) < 2){
-   print("Usage : ML_parallel.R <master> <cv_file> <nslices=1>")
-   print("Example : Rscript ML_parallel.R local[10] cv_small.txt")
-   q("no")
-}
 
 
 # get list of cross validation parameters
 
-cvpar = readLines(args[[2]])
+cvpar = readLines(args[[1]])
 
 library(raster)
 glist <- list.files(path="../../remotesensing_data/Af_grids_std", pattern="tif", full.names=T)
@@ -45,9 +35,6 @@ if(attr(tif.info, "ysign")==-1){
 	origin.y <- tif.info[5]	
 }
 
-
-#Initialize Spark context 
-sc <- sparkR.init(args[[1]], "geosurvey_predict", sparkEnvir=list(spark.executor.memory="1g"))
 
 geosurvey_data <- function(indata) {
    library(raster)
@@ -82,14 +69,12 @@ geosurvey_data <- function(indata) {
    }
 }
 
-nslices = 1
-if(length(args)==3) {nslices = as.numeric(args[[3]])}
+library(doParallel)
+registerDoParallel(cores=2)
 
-rdd <- parallelize(sc, coll=cvpar, numSlices = nslices)
-myerr <- flatMap(rdd,geosurvey_data)
-output <- collect(myerr)
+extract_results <- foreach(filenames=cvpar, .packages = c("raster"), .verbose=TRUE) %dopar% geosurvey_data(indata = filenames)
 
-# write.csv(results, "results.csv", row.names=FALSE)
-
-
+system(paste("awk 'FNR > 1'",  "geosurveydata_[0-9]*.csv", "> geosurveydata_withcov.csv"))
+system(paste("awk 'FNR == 1'", "geosurveydata_1.csvoutput", "> header.csv"))
+system("cat header.csv geosurveydata_withcov.csv > geosurveydata_withcov_withheader.csv")
 
