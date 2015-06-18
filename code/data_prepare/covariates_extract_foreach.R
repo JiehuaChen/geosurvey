@@ -1,10 +1,15 @@
 #!/usr/bin/Rscript
 
+
+# in order to run this code, please first in geosurvey_1m.R
+# then run in the command:
+# Rscript covariates_extract_foreach.R geofiles.txt 
+
+
 ### extracting covariates in parallel
 # stop when there is an warning
 ptm <- proc.time()
 
-options(warn=2)
 
 # load library
 library(rgdal)
@@ -69,6 +74,8 @@ geosurvey_data <- function(indata) {
 
 library(doParallel)
 registerDoParallel(cores=2)
+
+cvpar <- "geofiles.txt"
 
 extract_results <- foreach(filenames=cvpar, .packages = c("raster"), .verbose=TRUE) %dopar% geosurvey_data(indata = filenames)
 

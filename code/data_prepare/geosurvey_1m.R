@@ -1,3 +1,5 @@
+# split 1M geosurey data files for covariate extraction in parallel
+
 require(rgdal)
 
 geosurvey_a1 <- read.csv("../data/2015-01-20_18-00-02_248261/6_1m-point-survey-a1.csv", stringsAsFactors=FALSE)
