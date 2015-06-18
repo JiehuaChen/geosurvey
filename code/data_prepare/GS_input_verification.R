@@ -10,12 +10,8 @@ library(arm)
 dir.create("1MGS_data", showWarnings=F)
 dat_dir <- "./1MGS_data"
 
-# 1MQ GeoSurvey
-download("https://www.dropbox.com/s/tnc1wwmi8a4h6b1/2015-01-20_18-00-02_248261.zip?dl=0", "./1MGS_data/2015-01-20_18-00-02_248261.zip", mode="wb")
-unzip("./1MGS_data/2015-01-20_18-00-02_248261.zip", exdir="./1MGS_data", junkpaths=T, overwrite=T)
-geosurvey_a1 <- read.csv(paste(dat_dir, "/6_1m-point-survey-a1.csv", sep=""), stringsAsFactors=FALSE)
-geosurvey_a2 <- read.csv(paste(dat_dir, "/7_1m-point-survey-a2.csv", sep=""), stringsAsFactors=FALSE)
-geosurvey_total <- rbind(geosurvey_a1[ ,1:6], geosurvey_a2[ ,1:6])
+# 1MQ GeoSurvey with covariates
+geosurvey_total <- read.csv("1MGS_data/geosurveydata_withcov_withheader.csv")
 
 # Validation dataset
 download("https://www.dropbox.com/s/pt86fr3ko379f8h/1MQ_validation_data.csv?dl=0", "./1MGS_data/1MQ_validation_data.csv", mode ="wb")
