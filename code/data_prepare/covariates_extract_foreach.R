@@ -8,16 +8,14 @@ options(warn=2)
 
 # load library
 library(rgdal)
-# read in command arguments
-args <- commandArgs(trailingOnly=TRUE)
-
-
-# get list of cross validation parameters
-
-cvpar = readLines(args[[1]])
-
+library(downloader)
 library(raster)
-glist <- list.files(path="../../remotesensing_data/Af_grids_std", pattern="tif", full.names=T)
+
+# download remote sensing data
+download("https://www.dropbox.com/s/kjpr0f3y2tsxaqs/Af_grids_std.zip?dl=0", "Af_grids_std.zip", mode="wb")
+unzip("Af_grids_std.zip", exdir=".", overwrite=T)
+
+glist <- list.files(path="Af_grids_std", pattern="tif", full.names=T)
 grid <- stack(glist)
 
 
