@@ -16,6 +16,9 @@ library(rgdal)
 library(downloader)
 library(raster)
 
+
+
+
 # download remote sensing data
 download("https://www.dropbox.com/s/kjpr0f3y2tsxaqs/Af_grids_std.zip?dl=0", "Af_grids_std.zip", mode="wb")
 unzip("Af_grids_std.zip", exdir=".", overwrite=T)

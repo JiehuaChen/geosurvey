@@ -14,7 +14,7 @@ dat_dir <- "./1MGS_data"
 geosurvey_total <- read.csv("1MGS_data/geosurveydata_withcov_withheader.csv")
 
 # Validation dataset
-download("https://www.dropbox.com/s/pt86fr3ko379f8h/1MQ_validation_data.csv?dl=0", "./1MGS_data/1MQ_validation_data.csv", mode ="wb")
+download.file("https://www.dropbox.com/s/lvxm64pwbn3w2gp/1MQ_validation_data.csv", "./1MGS_data/1MQ_validation_data.csv", mode ="wb", method="wget")
 geosv <- read.table(paste(dat_dir, "/1MQ_validation_data.csv", sep=""), header=T, sep=",")
 
 #+ Remove coordinate duplicates -------------------------------------------
